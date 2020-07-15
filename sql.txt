@@ -233,6 +233,638 @@ mysql> select name,salary from player group by id having salary>=700000 order by
 | Min Ko Ko | 2000000 |
 | Min Ko Ko | 2000000 |
 +-----------+---------+
+4 rows in set (0.00 
+minko@minko-Aspire-E5-471G:~$ sudo mysql -u root
+[sudo] password for minko: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 2
+Server version: 5.7.30-0ubuntu0.18.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++---------------------------+
+| Database                  |
++---------------------------+
+| information_schema        |
+| mysql                     |
+| performance_schema        |
+| restaurantMenuOrderSystem |
+| sys                       |
++---------------------------+
+5 rows in set (0.12 sec)
+
+mysql> use restaurantMenuOrderSystem;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+
+
+mysql> use football;
+Database changed
+
+mysql> create table team(id int primary key auto_increment,name varchar(100),foundedda
+Query OK, 0 rows affected (0.47 sec)
+
+mysql> create table player(id int primary key auto_increment,name varchar(100),jersyno int,age int,salary decimal,teamid int references team(id),height int);
+Query OK, 0 rows affected (0.44 sec)
+
+    
+    desc
+
+    -> team;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int(11)      | NO   | PRI | NULL    | auto_increment |
+| name        | varchar(100) | YES  |     | NULL    |                |
+| foundeddate | date         | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into team(id,name,foodeddate) values("Myanmar",12/01/1996);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into team(name,foodeddate) values("Myanmar",12/01/1996);
+ERROR 1054 (42S22): Unknown column 'foodeddate' in 'field list'
+mysql> insert into team(id,name,foundeddate) values("Myanmar",12/01/1996);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into team(name,foundeddate) values("Myanmar",12/01/1996);
+ERROR 1292 (22007): Incorrect date value: '0.006012024048096192' for column 'foundeddate' at row 1
+mysql> insert into team(name,foundeddate) values("Myanmar",1996/01/01);
+ERROR 1292 (22007): Incorrect date value: '1996.000000000000000000' for column 'foundeddate' at row 1
+mysql> insert into team(name,foundeddate) values("Myanmar",'1996/01/01');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into player(id,name,jersyno,age,salary,teamid,height) values("Min Ko Ko",22,24,2000000,1,6);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into player(name,jersyno,age,salary,teamid,height) values("Min Ko Ko",22,24,2000000,1,6);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into team(name,foundeddate) values("Thailand","1987/10/11");
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into player(name,jersyno,age,salary,teamid,height) values("Min Ko Ko",22,24,2000000,1,6.5);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into player(name,jersyno,age,salary,teamid,height) values("Ko Ko",28,21,1800000,2,6.5);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into player(name,jersyno,age,salary,teamid,height) values("AG Myo",24,20,600000,1,6.2);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into player(name,jersyno,age,salary,teamid,height) values("Myo Myo",10,21,700000,2,6.4);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> select AVG(salary) from player;
++--------------+
+| AVG(salary)  |
++--------------+
+| 1420000.0000 |
++--------------+
+1 row in set (0.04 sec)
+
+mysql> insert into player(name,jersyno,age,salary,teamid,height) values("Myo Ko",7,21,400000,1,6);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select AVG(salary) from player;
++--------------+
+| AVG(salary)  |
++--------------+
+| 1250000.0000 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select name,sum(salary) from player;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'football.player.name'; this is incompatible with sql_mode=only_full_group_by
+mysql> select sum(salary) from player;
++-------------+
+| sum(salary) |
++-------------+
+|     7500000 |
++-------------+
+1 row in set (0.00 sec)
+
+
+minko@minko-Aspire-E5-471G:~$ sudo mysql -u root
+[sudo] password for minko: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 4
+Server version: 5.7.30-0ubuntu0.18.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> \g
+ERROR: 
+No query specified
+
+mysql> lw
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'lw' at line 1
+mysql> use football;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_football |
++--------------------+
+| player             |
+| team               |
++--------------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from player group by id;
++----+-----------+---------+------+---------+--------+--------+
+| id | name      | jersyno | age  | salary  | teamid | height |
++----+-----------+---------+------+---------+--------+--------+
+|  1 | Min Ko Ko |      22 |   24 | 2000000 |      1 |      6 |
+|  2 | Min Ko Ko |      22 |   24 | 2000000 |      1 |      7 |
+|  3 | Ko Ko     |      28 |   21 | 1800000 |      2 |      7 |
+|  4 | AG Myo    |      24 |   20 |  600000 |      1 |      6 |
+|  5 | Myo Myo   |      10 |   21 |  700000 |      2 |      6 |
+|  6 | Myo Ko    |       7 |   21 |  400000 |      1 |      6 |
++----+-----------+---------+------+---------+--------+--------+
+6 rows in set (0.05 sec)
+
+
+mysql> select name from player group by id;
++-----------+
+| name      |
++-----------+
+| Min Ko Ko |
+| Min Ko Ko |
+| Ko Ko     |
+| AG Myo    |
+| Myo Myo   |
+| Myo Ko    |
++-----------+
+6 rows in set (0.00 sec)
+
+mysql> select team.name,player.name from team,player where team.id=player.teamid;
++----------+-----------+
+| name     | name      |
++----------+-----------+
+| Myanmar  | Min Ko Ko |
+| Myanmar  | Min Ko Ko |
+| Thailand | Ko Ko     |
+| Myanmar  | AG Myo    |
+| Thailand | Myo Myo   |
+| Myanmar  | Myo Ko    |
++----------+-----------+
+6 rows in set (0.05 sec)
+
+mysql> select team.name,player.name from team,player where team.id=player.teamid;
++----------+-----------+
+| name     | name      |
++----------+-----------+
+| Myanmar  | Min Ko Ko |
+| Myanmar  | Min Ko Ko |
+| Thailand | Ko Ko     |
+| Myanmar  | AG Myo    |
+| Thailand | Myo Myo   |
+| Myanmar  | Myo Ko    |
++----------+-----------+
+6 rows in set (0.00 sec)
+
+
+mysql> select name,salary from player group by id having salary>500000;
++-----------+---------+
+| name      | salary  |
++-----------+---------+
+| Min Ko Ko | 2000000 |
+| Min Ko Ko | 2000000 |
+| Ko Ko     | 1800000 |
+| AG Myo    |  600000 |
+| Myo Myo   |  700000 |
++-----------+---------+
+5 rows in set (0.01 sec)
+
+mysql> select name,salary from player group by id having salary>700000;
++-----------+---------+
+| name      | salary  |
++-----------+---------+
+| Min Ko Ko | 2000000 |
+| Min Ko Ko | 2000000 |
+| Ko Ko     | 1800000 |
++-----------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select name,salary from player group by id having salary>=700000;
++-----------+---------+
+| name      | salary  |
++-----------+---------+
+| Min Ko Ko | 2000000 |
+| Min Ko Ko | 2000000 |
+| Ko Ko     | 1800000 |
+| Myo Myo   |  700000 |
++-----------+---------+
 4 rows in set (0.00 sec)
 
+mysql> select name,salary from player group by id having salary<700000;
++--------+--------+
+| name   | salary |
++--------+--------+
+| AG Myo | 600000 |
+| Myo Ko | 400000 |
++--------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select count(name) from player;
++-------------+
+| count(name) |
++-------------+
+|           6 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select count(name) from player where salary>500000;
++-------------+
+| count(name) |
++-------------+
+|           5 |
++-------------+
+1 row in set (0.00 sec)
+
+
+mysql> select name,salary from player group by id having salary>=700000 order by salary;
++-----------+---------+
+| name      | salary  |
++-----------+---------+
+| Myo Myo   |  700000 |
+| Ko Ko     | 1800000 |
+| Min Ko Ko | 2000000 |
+| Min Ko Ko | 2000000 |
++-----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select * from team,player where team.id=player.teamid;
++----+----------+-------------+----+-----------+---------+------+---------+--------+--------+
+| id | name     | foundeddate | id | name      | jersyno | age  | salary  | teamid | height |
++----+----------+-------------+----+-----------+---------+------+---------+--------+--------+
+|  1 | Myanmar  | 1996-01-01  |  1 | Min Ko Ko |      22 |   24 | 2000000 |      1 |      6 |
+|  1 | Myanmar  | 1996-01-01  |  2 | Min Ko Ko |      22 |   24 | 2000000 |      1 |      7 |
+|  2 | Thailand | 1987-10-11  |  3 | Ko Ko     |      28 |   21 | 1800000 |      2 |      7 |
+|  1 | Myanmar  | 1996-01-01  |  4 | AG Myo    |      24 |   20 |  600000 |      1 |      6 |
+|  2 | Thailand | 1987-10-11  |  5 | Myo Myo   |      10 |   21 |  700000 |      2 |      6 |
+|  1 | Myanmar  | 1996-01-01  |  6 | Myo Ko    |       7 |   21 |  400000 |      1 |      6 |
++----+----------+-------------+----+-----------+---------+------+---------+--------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from player where salary>500000;
++----+-----------+---------+------+---------+--------+--------+
+| id | name      | jersyno | age  | salary  | teamid | height |
++----+-----------+---------+------+---------+--------+--------+
+|  1 | Min Ko Ko |      22 |   24 | 2000000 |      1 |      6 |
+|  2 | Min Ko Ko |      22 |   24 | 2000000 |      1 |      7 |
+|  3 | Ko Ko     |      28 |   21 | 1800000 |      2 |      7 |
+|  4 | AG Myo    |      24 |   20 |  600000 |      1 |      6 |
+|  5 | Myo Myo   |      10 |   21 |  700000 |      2 |      6 |
++----+-----------+---------+------+---------+--------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select sum(player.salary) from player,team where player.teamid=team.id;
++--------------------+
+| sum(player.salary) |
++--------------------+
+|            7500000 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(player.salary) from player,team where player.teamid=team.id and name="Myanmar";
+ERROR 1052 (23000): Column 'name' in where clause is ambiguous
+mysql> select sum(player.salary) from player,team where player.teamid=team.id and team.name="Myanmar";
++--------------------+
+| sum(player.salary) |
++--------------------+
+|            5000000 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(player.salary) from player,team where player.teamid=team.id and team.name="Thailand";
++--------------------+
+| sum(player.salary) |
++--------------------+
+|            2500000 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from player where height >5;
++----+-----------+---------+------+---------+--------+--------+
+| id | name      | jersyno | age  | salary  | teamid | height |
++----+-----------+---------+------+---------+--------+--------+
+|  1 | Min Ko Ko |      22 |   24 | 2000000 |      1 |      6 |
+|  2 | Min Ko Ko |      22 |   24 | 2000000 |      1 |      7 |
+|  3 | Ko Ko     |      28 |   21 | 1800000 |      2 |      7 |
+|  4 | AG Myo    |      24 |   20 |  600000 |      1 |      6 |
+|  5 | Myo Myo   |      10 |   21 |  700000 |      2 |      6 |
+|  6 | Myo Ko    |       7 |   21 |  400000 |      1 |      6 |
++----+-----------+---------+------+---------+--------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select avg(salary) from player,team where player.teamid=team.id order by team.name;
++--------------+
+| avg(salary)  |
++--------------+
+| 1250000.0000 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select name,avg(salary) from player,team where player.teamid=team.id order by team.name;
+ERROR 1052 (23000): Column 'name' in field list is ambiguous
+mysql> select avg(salary) from player,team where player.teamid=team.id group by team.name;
++--------------+
+| avg(salary)  |
++--------------+
+| 1250000.0000 |
+| 1250000.0000 |
++--------------+
+2 rows in set (0.00 sec)
+
+mysql> select team.name,avg(player.salary) from player,team where player.teamid=team.id group by team.name;
++----------+--------------------+
+| name     | avg(player.salary) |
++----------+--------------------+
+| Myanmar  |       1250000.0000 |
+| Thailand |       1250000.0000 |
++----------+--------------------+
+2 rows in set (0.01 sec)
+
+mysql> select name,max(salary) from player group by name;
++-----------+-------------+
+| name      | max(salary) |
++-----------+-------------+
+| AG Myo    |      600000 |
+| Ko Ko     |     1800000 |
+| Min Ko Ko |     2000000 |
+| Myo Ko    |      400000 |
+| Myo Myo   |      700000 |
++-----------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select max(salary) from player group by name;
++-------------+
+| max(salary) |
++-------------+
+|      600000 |
+|     1800000 |
+|     2000000 |
+|      400000 |
+|      700000 |
++-------------+
+5 rows in set (0.00 sec)
+
+
+mysql> select name,salary from player group by id having salary > 500000 order by name;
++-----------+---------+
+| name      | salary  |
++-----------+---------+
+| AG Myo    |  600000 |
+| Ko Ko     | 1800000 |
+| Min Ko Ko | 2000000 |
+| Min Ko Ko | 2000000 |
+| Myo Myo   |  700000 |
++-----------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select name,salary from player group by id having salary > 500000 order by salary;
++-----------+---------+
+| name      | salary  |
++-----------+---------+
+| AG Myo    |  600000 |
+| Myo Myo   |  700000 |
+| Ko Ko     | 1800000 |
+| Min Ko Ko | 2000000 |
+| Min Ko Ko | 2000000 |
++-----------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select name,max(salary) from player;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'football.player.name'; this is incompatible with sql_mode=only_full_group_by
+mysql> select name,max(salary) from player GROUP BY id;
++-----------+-------------+
+| name      | max(salary) |
++-----------+-------------+
+| Min Ko Ko |     2000000 |
+| Min Ko Ko |     2000000 |
+| Ko Ko     |     1800000 |
+| AG Myo    |      600000 |
+| Myo Myo   |      700000 |
+| Myo Ko    |      400000 |
++-----------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select name,max(salary) from player group by id;
++-----------+-------------+
+| name      | max(salary) |
++-----------+-------------+
+| Min Ko Ko |     2000000 |
+| Min Ko Ko |     2000000 |
+| Ko Ko     |     1800000 |
+| AG Myo    |      600000 |
+| Myo Myo   |      700000 |
+| Myo Ko    |      400000 |
++-----------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select name,min(salary) from player group by id;
++-----------+-------------+
+| name      | min(salary) |
++-----------+-------------+
+| Min Ko Ko |     2000000 |
+| Min Ko Ko |     2000000 |
+| Ko Ko     |     1800000 |
+| AG Myo    |      600000 |
+| Myo Myo   |      700000 |
+| Myo Ko    |      400000 |
++-----------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select min(salary) from player group by id;
++-------------+
+| min(salary) |
++-------------+
+|     2000000 |
+|     2000000 |
+|     1800000 |
+|      600000 |
+|      700000 |
+|      400000 |
++-------------+
+6 rows in set (0.00 sec)
+
+mysql> select min(salary) from player;
++-------------+
+| min(salary) |
++-------------+
+|      400000 |
++-------------+
+1 row in set (0.00 sec)
+
+
+mysql> select min(salary) from player;
++-------------+
+| min(salary) |
++-------------+
+|      400000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select name from player where age>30 and salary>200000;
+Empty set (0.00 sec)
+
 mysql> 
+mysql> select avg(salary) from player,team where player.teamid=team.id group by team.name;
++--------------+
+| avg(salary)  |
++--------------+
+| 1250000.0000 |
+| 1250000.0000 |
++--------------+
+2 rows in set (0.00 sec)
+
+mysql> select team.name,avg(player.salary) from player,team where player.teamid=team.id group by team.name;
++----------+--------------------+
+| name     | avg(player.salary) |
++----------+--------------------+
+| Myanmar  |       1250000.0000 |
+| Thailand |       1250000.0000 |
++----------+--------------------+
+2 rows in set (0.01 sec)
+
+
+mysql> select name,max(salary) from player group by name;
++-----------+-------------+
+| name      | max(salary) |
++-----------+-------------+
+| AG Myo    |      600000 |
+| Ko Ko     |     1800000 |
+| Min Ko Ko |     2000000 |
+| Myo Ko    |      400000 |
+| Myo Myo   |      700000 |
++-----------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select max(salary) from player group by name;
++-------------+
+| max(salary) |
++-------------+
+|      600000 |
+|     1800000 |
+|     2000000 |
+|      400000 |
+|      700000 |
++-------------+
+5 rows in set (0.00 sec)
+
+
+mysql> select name,salary from player group by id having salary > 500000 order by name;
++-----------+---------+
+| name      | salary  |
++-----------+---------+
+| AG Myo    |  600000 |
+| Ko Ko     | 1800000 |
+| Min Ko Ko | 2000000 |
+| Min Ko Ko | 2000000 |
+| Myo Myo   |  700000 |
++-----------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select name,salary from player group by id having salary > 500000 order by salary;
++-----------+---------+
+| name      | salary  |
++-----------+---------+
+| AG Myo    |  600000 |
+| Myo Myo   |  700000 |
+| Ko Ko     | 1800000 |
+| Min Ko Ko | 2000000 |
+| Min Ko Ko | 2000000 |
++-----------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select name,max(salary) from player;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'football.player.name'; this is incompatible with sql_mode=only_full_group_by
+mysql> select name,max(salary) from player GROUP BY id;
++-----------+-------------+
+| name      | max(salary) |
++-----------+-------------+
+| Min Ko Ko |     2000000 |
+| Min Ko Ko |     2000000 |
+| Ko Ko     |     1800000 |
+| AG Myo    |      600000 |
+| Myo Myo   |      700000 |
+| Myo Ko    |      400000 |
++-----------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select name,max(salary) from player group by id;
++-----------+-------------+
+| name      | max(salary) |
++-----------+-------------+
+| Min Ko Ko |     2000000 |
+| Min Ko Ko |     2000000 |
+| Ko Ko     |     1800000 |
+| AG Myo    |      600000 |
+| Myo Myo   |      700000 |
+| Myo Ko    |      400000 |
++-----------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select name,min(salary) from player group by id;
++-----------+-------------+
+| name      | min(salary) |
++-----------+-------------+
+| Min Ko Ko |     2000000 |
+| Min Ko Ko |     2000000 |
+| Ko Ko     |     1800000 |
+| AG Myo    |      600000 |
+| Myo Myo   |      700000 |
+| Myo Ko    |      400000 |
++-----------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select min(salary) from player group by id;
++-------------+
+| min(salary) |
++-------------+
+|     2000000 |
+|     2000000 |
+|     1800000 |
+|      600000 |
+|      700000 |
+|      400000 |
++-------------+
+6 rows in set (0.00 sec)
+
+mysql> select min(salary) from player;
++-------------+
+| min(salary) |
++-------------+
+|      400000 |
++-------------+
+1 row in set (0.00 sec)
+
+
+mysql> select min(salary) from player;
++-------------+
+| min(salary) |
++-------------+
+|      400000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select name from player where age>30 and salary>200000;
+Empty set (0.00 sec)
